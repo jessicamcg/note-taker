@@ -3,6 +3,8 @@ const notes = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const util = require('util');
+const { timeStamp } = require('console');
+const { json } = require('express');
 const readFromFile = util.promisify(fs.readFile);
 
 notes.get('/', (req, res) => {
@@ -24,6 +26,18 @@ notes.get('/:id', (req, res) => {
         : res.json('No note with that ID');
     });
 });
+
+notes.delete('/:id', (req, res) => {
+    const noteId = req.params.id;
+    readFromFile('./db/db.json')
+        .then((data) => JSON.parse(data))
+        .then((json) => {
+            const result = json.filter((note) => note.id !== noteId);
+            fs.writeFile('./db/db.json', JSON.stringify(result,null,4), (err) =>
+            err ? console.error(err) : console.info(`\nData written to database`));
+            res.json(`Item ${noteId} has been deleted`);
+        })
+})
 
 notes.post('/', (req, res) => {
     console.log(req.body);
