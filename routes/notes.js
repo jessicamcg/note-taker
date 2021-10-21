@@ -1,6 +1,11 @@
 const notes = require('express').Router();
 
+const fs = require('fs');
 
+
+notes.get('/notes', (req, res) =>
+  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
+);
 
 notes.post('/notes', (req, res) => {
 
@@ -18,3 +23,5 @@ notes.post('/notes', (req, res) => {
     })
 
 });
+
+module.exports = notes;

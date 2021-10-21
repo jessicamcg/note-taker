@@ -8,6 +8,8 @@ const clog = (req, res, next) => {
         default:
             break;
     }
+
+    next();
 }
 
 exports.clog = clog;
