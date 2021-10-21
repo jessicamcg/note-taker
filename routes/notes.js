@@ -1,21 +1,19 @@
 const notes = require('express').Router();
-
+const noteData = require('../db/db.json')
 const fs = require('fs');
 
 
-notes.get('/notes', (req, res) =>
-  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
-);
+notes.get('/', (req, res) => res.json(noteData));
 
 notes.post('/notes', (req, res) => {
-
+    console.log(req.body);
   
 
     fs.readFile("./db/db.json", "utf8", (err, data) => {
         if (err) throw err;
-        const bookData = JSON.parse(data);
+        const noteData = JSON.parse(data);
         // console.log(noteData);
-        bookData.push(newNote);
+        noteData.push(newNote);
         fs.writeFile("./db/db.json", JSON.stringify(noteData,null,4), err => {
           console.log("added to the file");
         })
