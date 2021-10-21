@@ -1,10 +1,7 @@
 const notes = require('express').Router();
-// const notesData = require('../db/db.json');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const util = require('util');
-const { timeStamp } = require('console');
-const { json } = require('express');
 const readFromFile = util.promisify(fs.readFile);
 
 notes.get('/', (req, res) => {
@@ -13,9 +10,6 @@ notes.get('/', (req, res) => {
 
 notes.get('/:id', (req, res) => {
     const noteId = req.params.id;
-    // fs.readFile('./db/db.json', 'utf8', (err, data) => {
-    //     if (err) throw err;
-    // })
 
     readFromFile('./db/db.json')
     .then((data) => JSON.parse(data))
@@ -40,7 +34,7 @@ notes.delete('/:id', (req, res) => {
 })
 
 notes.post('/', (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
 
     const { title, text } = req.body;
 
